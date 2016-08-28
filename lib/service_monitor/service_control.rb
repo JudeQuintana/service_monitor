@@ -3,11 +3,11 @@ module ServiceMonitor
     attr_accessor :service_name, :service_start, :service_stop, :service_status
 
     STATUSES = [
+      OKAY    = 'OK',
       STOPPED = 'STOPPED',
       RUNNING = 'RUNNING',
-      DEAD = 'DEAD',
-      FAILED = 'FAILED',
-      OK = 'OK'
+      DEAD    = 'DEAD',
+      FAILED  = 'FAILED'
     ]
 
     def self.build(config)
@@ -28,10 +28,10 @@ module ServiceMonitor
     def determine_restart!
       status
 
-      match = status_out.match(/#{STOPPED}|#{DEAD}/i)
+      match = status_output.match(/#{STOPPED}|#{DEAD}/i)
 
       if match
-        puts "#{service_name} needs a RESTART"
+        puts "#{service_name} needs a RESTART\n"
         restart
       end
 
@@ -39,26 +39,27 @@ module ServiceMonitor
     end
 
     def status
-      puts "Status for #{service_name} service"
-      self.status_out = service_status.call
-      puts status_out
-      puts
+      puts "Status for #{service_name} service\n"
+
+      self.status_output = service_status.call
+
+      puts status_output + "\n\n"
     end
 
     def start
-      puts "Starting #{service_name} service"
-      self.start_out = service_start.call
-      puts
+      puts "Starting #{service_name} service\n"
 
-      check_failure(start_out)
+      start_output = service_start.call
+
+      check_failure(start_output)
     end
 
     def stop
-      puts "Stopping #{service_name} service"
-      self.stop_out = service_stop.call
-      puts
+      puts "Stopping #{service_name} service\n"
 
-      check_failure(stop_out)
+      stop_output = service_stop.call
+
+      check_failure(stop_output)
     end
 
     def restart
@@ -69,14 +70,13 @@ module ServiceMonitor
 
     private
 
-    attr_accessor :status_out, :start_out, :stop_out
+    attr_accessor :status_output
 
     def check_failure(output)
       match = output.match(/#{FAILED}/i)
 
       if match
-        puts "There is an issue starting/stopping #{service_name}"
-        puts "Please investigate"
+        puts "\nThere is an issue starting/stopping #{service_name}\nPlease investigate!"
         exit
       end
     end
