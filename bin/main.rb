@@ -1,6 +1,5 @@
 require '../lib/service_monitor'
 
-
 def load_config
   YAML.load_file('../config/service_config.yaml')
 end
