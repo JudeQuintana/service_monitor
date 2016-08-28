@@ -26,7 +26,7 @@ module ServiceMonitor
     def determine_restart!
       status
 
-      match = output.match(/[#{STOPPED}|#{DEAD}]/i)
+      match = output.match(/#{STOPPED}|#{DEAD}/i)
 
       if match
         puts "#{service_name} needs a RESTART"
