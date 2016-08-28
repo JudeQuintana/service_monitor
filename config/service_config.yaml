@@ -8,3 +8,4 @@
    start_cmd: service httpd start
    stop_cmd: service httpd stop
    status_cmd: service httpd status
+   

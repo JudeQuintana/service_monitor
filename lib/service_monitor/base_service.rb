@@ -11,7 +11,7 @@ module ServiceMonitor
       #
       # "service is running!"
       # "service is stopped!"
-      system("#{cmd}")
+      `#{cmd}`
     end
 
   end
