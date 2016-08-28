@@ -7,11 +7,6 @@ module ServiceMonitor
     end
 
     def call
-      # puts "CMD: #{cmd}"
-      #
-      # "service is running!"
-      # "service is stopped!"
-      # "dead but subsys locked"
       `#{cmd}`
     end
 

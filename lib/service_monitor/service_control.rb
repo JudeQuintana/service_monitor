@@ -5,7 +5,9 @@ module ServiceMonitor
     STATUSES = [
       STOPPED = 'STOPPED',
       RUNNING = 'RUNNING',
-      DEAD = 'DEAD'
+      DEAD = 'DEAD',
+      FAILED = 'FAILED',
+      OK = 'OK'
     ]
 
     def self.build(config)
@@ -26,7 +28,7 @@ module ServiceMonitor
     def determine_restart!
       status
 
-      match = output.match(/#{STOPPED}|#{DEAD}/i)
+      match = status_out.match(/#{STOPPED}|#{DEAD}/i)
 
       if match
         puts "#{service_name} needs a RESTART"
@@ -38,21 +40,25 @@ module ServiceMonitor
 
     def status
       puts "Status for #{service_name} service"
-      self.output = service_status.call
-      puts output
+      self.status_out = service_status.call
+      puts status_out
       puts
     end
 
     def start
       puts "Starting #{service_name} service"
-      service_start.call
+      self.start_out = service_start.call
       puts
+
+      check_failure(start_out)
     end
 
     def stop
       puts "Stopping #{service_name} service"
-      service_stop.call
+      self.stop_out = service_stop.call
       puts
+
+      check_failure(stop_out)
     end
 
     def restart
@@ -63,6 +69,17 @@ module ServiceMonitor
 
     private
 
-    attr_accessor :output
+    attr_accessor :status_out, :start_out, :stop_out
+
+    def check_failure(output)
+      match = output.match(/#{FAILED}/i)
+
+      if match
+        puts "There is an issue starting/stopping #{service_name}"
+        puts "Please investigate"
+        exit
+      end
+    end
+
   end
 end
