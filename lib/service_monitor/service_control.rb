@@ -31,8 +31,9 @@ module ServiceMonitor
       if match
         puts "#{service_name} needs a RESTART"
         restart
-        puts "----"
       end
+
+      puts "----------"
     end
 
     def status
