@@ -38,16 +38,19 @@ module ServiceMonitor
       puts "Status for #{service_name} service"
       self.output = service_status.call
       puts output
+      puts
     end
 
     def start
       puts "Starting #{service_name} service"
       service_start.call
+      puts
     end
 
     def stop
       puts "Stopping #{service_name} service"
       service_stop.call
+      puts
     end
 
     def restart
