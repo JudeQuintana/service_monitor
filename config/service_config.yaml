@@ -1,0 +1,14 @@
+-
+   service_name: ssh
+   start_cmd: service start ssh
+   stop_cmd: service stop ssh
+   status_cmd: service ssh status
+   log: /some/path/to/log
+   pid: /some/path/to/pid/file
+-
+   service_name: apache
+   start_cmd: service start apache2
+   stop_cmd: service stop apache2
+   status_cmd: service apache2 status
+   log: /some/path/to/log
+   pid: /some/path/to/pid/file
