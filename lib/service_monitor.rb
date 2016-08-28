@@ -1,5 +1,4 @@
 require 'yaml'
-require 'ostruct'
 
 require_relative './service_monitor/service_control'
 require_relative './service_monitor/service_status'
