@@ -40,7 +40,7 @@ module ServiceMonitor
 
       status_output = service_status.call
 
-      puts "[+] " + status_output + "\n"
+      puts "[+] " + status_output
 
       status_output
     end
