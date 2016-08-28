@@ -4,7 +4,8 @@ module ServiceMonitor
 
     STATUSES = [
       STOPPED = 'STOPPED',
-      RUNNING = 'RUNNING'
+      RUNNING = 'RUNNING',
+      DEAD = 'DEAD'
     ]
 
     def self.build(config)
@@ -25,7 +26,7 @@ module ServiceMonitor
     def determine_restart!
       status
 
-      match = output.match(/#{STOPPED}/i)
+      match = output.match(/[#{STOPPED}|#{DEAD}]/i)
 
       if match
         puts "#{service_name} needs a RESTART"
