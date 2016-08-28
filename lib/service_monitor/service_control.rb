@@ -26,28 +26,27 @@ module ServiceMonitor
     end
 
     def determine_restart!
-      status
+      puts Time.now.to_s + "\n\n"
 
-      match = status_output.match(/#{STOPPED}|#{DEAD}/i)
+      status_output = status
 
-      if match
-        puts "#{service_name} needs a RESTART\n"
-        restart
-      end
+      check_restart(status_output)
 
-      puts "----------"
+      puts "\n----------"
     end
 
     def status
-      puts "Status for #{service_name} service\n"
+      puts "[+] Status for #{service_name} service\n"
 
-      self.status_output = service_status.call
+      status_output = service_status.call
 
-      puts status_output + "\n"
+      puts "[+] " + status_output + "\n"
+
+      status_output
     end
 
     def start
-      puts "Starting #{service_name} service\n"
+      puts "[+] Starting #{service_name} service\n"
 
       start_output = service_start.call
 
@@ -55,7 +54,7 @@ module ServiceMonitor
     end
 
     def stop
-      puts "Stopping #{service_name} service\n"
+      puts "[+] Stopping #{service_name} service\n"
 
       stop_output = service_stop.call
 
@@ -70,13 +69,20 @@ module ServiceMonitor
 
     private
 
-    attr_accessor :status_output
+    def check_restart(output)
+      match = output.match(/#{STOPPED}|#{DEAD}/i)
+
+      if match
+        puts "[+] #{service_name} needs a RESTART\n"
+        restart
+      end
+    end
 
     def check_failure(output)
       match = output.match(/#{FAILED}/i)
 
       if match
-        puts "\nThere is an issue starting/stopping #{service_name}\nPlease investigate!"
+        puts "\n[+] There is an issue starting/stopping #{service_name}\nPlease investigate!"
         exit
       end
     end
