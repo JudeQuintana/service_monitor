@@ -4,8 +4,8 @@ module ServiceMonitor
 
     STATUSES = [
       OKAY    = 'OK',
-      STOPPED = 'STOPPED',
       RUNNING = 'RUNNING',
+      STOPPED = 'STOPPED',
       DEAD    = 'DEAD',
       FAILED  = 'FAILED'
     ]
