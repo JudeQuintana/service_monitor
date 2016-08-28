@@ -9,9 +9,9 @@ def main
     ServiceMonitor::ServiceControl.build(config)
   }
 
-  service1 = service_list.first
-  service1.status
-  service1.restart
+  service_list.each { |service|
+    service.determine_restart!
+  }
 end
 
 main

@@ -22,9 +22,21 @@ module ServiceMonitor
       self.service_status = service_status
     end
 
+    def determine_restart!
+      status
+
+      match = output.match(/#{STOPPED}/i)
+
+      if match
+        puts "#{service_name} needs a RESTART"
+        restart
+      end
+    end
+
     def status
       puts "Status for #{service_name} service"
-      service_status.call
+      self.output = service_status.call
+      puts output
     end
 
     def start
@@ -41,5 +53,10 @@ module ServiceMonitor
       stop
       start
     end
+
+
+    private
+
+    attr_accessor :output
   end
 end

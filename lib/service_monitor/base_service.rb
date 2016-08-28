@@ -7,8 +7,11 @@ module ServiceMonitor
     end
 
     def call
-      puts "CMD: #{cmd}"
-      puts
+      # puts "CMD: #{cmd}"
+      #
+      # "service is running!"
+      # "service is stopped!"
+      system("#{cmd}")
     end
 
   end
