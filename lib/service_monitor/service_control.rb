@@ -43,7 +43,7 @@ module ServiceMonitor
 
       self.status_output = service_status.call
 
-      puts status_output + "\n\n"
+      puts status_output + "\n"
     end
 
     def start
