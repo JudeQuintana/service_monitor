@@ -1,5 +1,5 @@
-# Service Monitor
-This is a mini framework that auto restarts processes that have died for whatever reason via the service command. This has only been tested on CentOS 6.8 running as root.
+# What is it? 
+Service Monitor is a mini framework that auto restarts processes that have died for whatever reason via the service command. It has only been tested on CentOS 6.8 running as root.
 
 **Getting Started**
 
