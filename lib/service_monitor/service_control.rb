@@ -32,7 +32,7 @@ module ServiceMonitor
 
       check_restart(status_output)
 
-      puts "\n----------"
+      puts "\n------------------------------"
     end
 
     def status
