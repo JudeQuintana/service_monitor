@@ -78,6 +78,19 @@ module ServiceMonitor
 
       expect(service_status).to have_received(:call)
       expect(service_start).to have_received(:call)
+
+      #resetting mock objects
+      RSpec::Mocks.space.proxy_for(service_status).reset
+      RSpec::Mocks.space.proxy_for(service_start).reset
+
+      #this will wont start the service if already running
+      allow(service_status).to receive(:call).and_return("httpd is running")
+      allow(service_start).to receive(:call).and_return("Starting httpd: [  OK  ]")
+
+      service_control.determine_restart!
+
+      expect(service_status).to have_received(:call)
+      expect(service_start).to_not have_received(:call)
     end
 
     def service_status_double
