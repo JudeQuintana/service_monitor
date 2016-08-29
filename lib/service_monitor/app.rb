@@ -10,18 +10,8 @@ module ServiceMonitor
 
     private
 
-    def load_config
-      YAML.load_file(File.expand_path('../../../config/service_config.yaml', __FILE__))
-    end
-
-    def build_service_objects
-      settings.service_config.map { |config|
-        ServiceMonitor::ServiceControl.build(config)
-      }
-    end
-
     def get_status_for_services
-      service_list = build_service_objects
+      service_list = YamlLoader.build_service_objects
 
       service_list.map { |service|
         {
