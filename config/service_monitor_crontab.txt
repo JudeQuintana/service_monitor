@@ -1,0 +1,1 @@
+*/5 * * * * /path/to/service_monitor/bin/run_via_cron.sh  >> /path/to/service_monitor/log/service_monitor.log 2>&1
