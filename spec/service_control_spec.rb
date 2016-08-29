@@ -5,12 +5,8 @@ module ServiceMonitor
     it "calls each of the underlying service objects for each public method" do
 
       config = {
-        'service_name' => 'apache',
-        'start_cmd'    => 'service httpd start',
-        'stop_cmd'     => 'service httpd stop',
-        'status_cmd'   => 'service httpd status'
+        'service_name' => 'apache'
       }
-
 
       service_status = service_status_double
       allow(service_status).to receive(:call).and_return("httpd is stopped")

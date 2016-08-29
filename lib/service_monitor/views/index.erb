@@ -1,0 +1,8 @@
+<h1>Current Service Health</h1>
+<h4><%= Time.now.to_s %></h4>
+
+<% @services.each do |service| %>
+  <p><%= "[+] " + service[:service_name] %></p>
+  <p><%= "[+] " + service[:service_status] %></p>
+  <p>------------------------------</p>
+<% end %>
