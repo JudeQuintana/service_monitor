@@ -86,7 +86,6 @@ module ServiceMonitor
       expect(service_start).to have_received(:call)
       expect(service_stop).to have_received(:call)
 
-
       #resetting mock objects
       RSpec::Mocks.space.proxy_for(service_start).reset
       RSpec::Mocks.space.proxy_for(service_stop).reset
@@ -100,6 +99,7 @@ module ServiceMonitor
       service_control.determine_restart!
 
       expect(service_status).to have_received(:call)
+
       expect(service_start).to_not have_received(:call)
       expect(service_stop).to_not have_received(:call)
     end
