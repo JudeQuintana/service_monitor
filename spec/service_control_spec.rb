@@ -40,53 +40,68 @@ module ServiceMonitor
       #resetting mock objects
       RSpec::Mocks.space.proxy_for(service_start).reset
       RSpec::Mocks.space.proxy_for(service_stop).reset
+      RSpec::Mocks.space.proxy_for(service_status).reset
 
       allow(service_start).to receive(:call).and_return("Starting httpd: [  OK  ]")
       allow(service_stop).to receive(:call).and_return("Stopping httpd: [  OK  ]")
+      allow(service_status).to receive(:call).and_return("httpd is stopped")
 
       service_control.restart
 
       expect(service_start).to have_received(:call)
       expect(service_stop).to have_received(:call)
 
+      expect(service_status).to_not have_received(:call)
+
+
       #resetting mock objects
-      RSpec::Mocks.space.proxy_for(service_status).reset
       RSpec::Mocks.space.proxy_for(service_start).reset
+      RSpec::Mocks.space.proxy_for(service_stop).reset
+      RSpec::Mocks.space.proxy_for(service_status).reset
 
       #this will start the service due to stopped service
-      allow(service_status).to receive(:call).and_return("httpd is stopped")
       allow(service_start).to receive(:call).and_return("Starting httpd: [  OK  ]")
+      allow(service_stop).to receive(:call).and_return("Stopping httpd: [  OK  ]")
+      allow(service_status).to receive(:call).and_return("httpd is stopped")
 
       service_control.determine_restart!
 
       expect(service_status).to have_received(:call)
       expect(service_start).to have_received(:call)
+      expect(service_stop).to have_received(:call)
 
       #resetting mock objects
-      RSpec::Mocks.space.proxy_for(service_status).reset
       RSpec::Mocks.space.proxy_for(service_start).reset
+      RSpec::Mocks.space.proxy_for(service_stop).reset
+      RSpec::Mocks.space.proxy_for(service_status).reset
 
       #this will start the service due to dead service
-      allow(service_status).to receive(:call).and_return("httpd dead but subsys locked")
       allow(service_start).to receive(:call).and_return("Starting httpd: [  OK  ]")
+      allow(service_stop).to receive(:call).and_return("Stopping httpd: [  OK  ]")
+      allow(service_status).to receive(:call).and_return("httpd dead but subsys locked")
 
       service_control.determine_restart!
 
       expect(service_status).to have_received(:call)
       expect(service_start).to have_received(:call)
+      expect(service_stop).to have_received(:call)
+
 
       #resetting mock objects
-      RSpec::Mocks.space.proxy_for(service_status).reset
       RSpec::Mocks.space.proxy_for(service_start).reset
+      RSpec::Mocks.space.proxy_for(service_stop).reset
+      RSpec::Mocks.space.proxy_for(service_status).reset
 
       #this will wont start the service if already running
-      allow(service_status).to receive(:call).and_return("httpd is running")
       allow(service_start).to receive(:call).and_return("Starting httpd: [  OK  ]")
+      allow(service_stop).to receive(:call).and_return("Stopping httpd: [  OK  ]")
+      allow(service_status).to receive(:call).and_return("httpd is running")
 
       service_control.determine_restart!
 
       expect(service_status).to have_received(:call)
       expect(service_start).to_not have_received(:call)
+      expect(service_stop).to_not have_received(:call)
     end
 
     def service_status_double
