@@ -91,7 +91,7 @@ httpd: Could not reliably determine the server's fully qualified domain name, us
 ----------
 ```
 
-**Setting up crontab**
+**Automating via crontab**
 
 Configure the bin/run_via_cron.sh script that will be run via crontab. Fill in the paths that include /path/to/.
 
