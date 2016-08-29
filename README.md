@@ -37,6 +37,22 @@ ruby main.rb
 
 Sample output for running services
 ```
+2016-08-29 16:15:01 +0000
+
+[+] Status for mysql service
+[+] mysqld (pid  23543) is running...
+
+----------
+2016-08-29 16:15:01 +0000
+
+[+] Status for apache service
+[+] httpd (pid  1605) is running...
+
+----------
+```
+
+Sample output for stopped services
+```
 2016-08-29 15:50:01 +0000
 
 [+] Status for mysql service
@@ -47,26 +63,6 @@ Sample output for running services
 
 [+] Status for apache service
 [+] httpd is stopped
-[+] apache needs a RESTART
-[+] Stopping apache service
-[+] Starting apache service
-httpd: Could not reliably determine the server's fully qualified domain name, using ::1 for ServerName
-
-----------
-```
-
-Sample output for stopped services
-```
-2016-08-29 15:45:02 +0000
-
-[+] Status for mysql service
-[+] mysqld (pid  23543) is running...
-
-----------
-2016-08-29 15:45:02 +0000
-
-[+] Status for apache service
-[+] httpd dead but subsys locked
 [+] apache needs a RESTART
 [+] Stopping apache service
 [+] Starting apache service
