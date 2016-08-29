@@ -113,7 +113,7 @@ Then install the crontab with:
 crontab service_monitor_crontab.txt
 ```
 
-Now the Service Monitor will run every 5 minutes and the restart services that are downed. There's also a mechanism to prevent service flapping. It will shut down the script in the event that the services fail to start or stop and notify to investigate the service further.
+Now the Service Monitor will run every 5 minutes and the restart services that are down. There's also a mechanism to prevent service flapping. It will shut down the script in the event that the services fail to start or stop and notify to investigate the service further.
 
 **Web Server**
  
