@@ -16,7 +16,7 @@ module ServiceMonitor
       service_list.map { |service|
         {
           :service_name   => service.service_name,
-          :service_status => service.status,
+          :service_status => service.status
         }
       }
     end
