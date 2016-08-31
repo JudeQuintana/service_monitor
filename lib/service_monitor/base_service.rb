@@ -7,7 +7,15 @@ module ServiceMonitor
     end
 
     def call
-      `#{cmd}`
+      begin
+        output = `#{cmd}`
+      rescue Exception => e
+        output = e.message
+        puts "[+] There was a problem running the #{cmd} command!\n[+] Please fix it!\n#{output}"
+        exit
+      end
+
+      output
     end
 
   end
