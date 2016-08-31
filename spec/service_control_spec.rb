@@ -2,106 +2,215 @@ require 'spec_helper'
 
 module ServiceMonitor
   RSpec.describe ServiceControl do
-    it "calls each of the underlying service objects for each public method" do
 
-      config = {
-        'service_name' => 'apache'
-      }
+    describe ".start" do
+      it "only calls the service_start object" do
+        config = {
+          'service_name' => 'apache'
+        }
 
-      service_status = service_status_double
-      allow(service_status).to receive(:call).and_return("httpd is stopped")
+        service_status = service_status_double
+        allow(service_status).to receive(:call).and_return("httpd is stopped")
 
-      service_start = service_start_double
-      allow(service_start).to receive(:call).and_return("Starting httpd: [  OK  ]")
+        service_start = service_start_double
+        allow(service_start).to receive(:call).and_return("Starting httpd: [  OK  ]")
 
-      service_stop = service_stop_double
-      allow(service_stop).to receive(:call).and_return("Stopping httpd: [  OK  ]")
+        service_stop = service_stop_double
+        allow(service_stop).to receive(:call).and_return("Stopping httpd: [  OK  ]")
 
-      service_control = ServiceControl.new(:service_name   => config.fetch('service_name'),
-                                           :service_start  => service_start,
-                                           :service_stop   => service_stop,
-                                           :service_status => service_status
-      )
+        service_control = ServiceControl.new(:service_name   => config.fetch('service_name'),
+                                             :service_start  => service_start,
+                                             :service_stop   => service_stop,
+                                             :service_status => service_status
+        )
 
-      expect(service_control.service_name).to eq("apache")
+        service_control.start
 
-      service_control.start
+        expect(service_start).to have_received(:call)
 
-      expect(service_start).to have_received(:call)
+        expect(service_status).to_not have_received(:call)
+        expect(service_stop).to_not have_received(:call)
+      end
+    end
 
-      service_control.stop
+    describe ".stop" do
+      it "only calls the service_stop object" do
+        config = {
+          'service_name' => 'apache'
+        }
 
-      expect(service_stop).to have_received(:call)
+        service_status = service_status_double
+        allow(service_status).to receive(:call).and_return("httpd is stopped")
 
-      service_control.status
+        service_start = service_start_double
+        allow(service_start).to receive(:call).and_return("Starting httpd: [  OK  ]")
 
-      expect(service_status).to have_received(:call)
+        service_stop = service_stop_double
+        allow(service_stop).to receive(:call).and_return("Stopping httpd: [  OK  ]")
 
-      #resetting mock objects
-      RSpec::Mocks.space.proxy_for(service_start).reset
-      RSpec::Mocks.space.proxy_for(service_stop).reset
-      RSpec::Mocks.space.proxy_for(service_status).reset
+        service_control = ServiceControl.new(:service_name   => config.fetch('service_name'),
+                                             :service_start  => service_start,
+                                             :service_stop   => service_stop,
+                                             :service_status => service_status
+        )
 
-      allow(service_start).to receive(:call).and_return("Starting httpd: [  OK  ]")
-      allow(service_stop).to receive(:call).and_return("Stopping httpd: [  OK  ]")
-      allow(service_status).to receive(:call).and_return("httpd is stopped")
+        service_control.stop
 
-      service_control.restart
+        expect(service_stop).to have_received(:call)
 
-      expect(service_start).to have_received(:call)
-      expect(service_stop).to have_received(:call)
+        expect(service_status).to_not have_received(:call)
+        expect(service_start).to_not have_received(:call)
+      end
+    end
 
-      expect(service_status).to_not have_received(:call)
+    describe ".status" do
+      it "only calls the service_status object" do
+        config = {
+          'service_name' => 'apache'
+        }
 
+        service_status = service_status_double
+        allow(service_status).to receive(:call).and_return("httpd is stopped")
 
-      #resetting mock objects
-      RSpec::Mocks.space.proxy_for(service_start).reset
-      RSpec::Mocks.space.proxy_for(service_stop).reset
-      RSpec::Mocks.space.proxy_for(service_status).reset
+        service_start = service_start_double
+        allow(service_start).to receive(:call).and_return("Starting httpd: [  OK  ]")
 
-      #this will start the service due to stopped service
-      allow(service_start).to receive(:call).and_return("Starting httpd: [  OK  ]")
-      allow(service_stop).to receive(:call).and_return("Stopping httpd: [  OK  ]")
-      allow(service_status).to receive(:call).and_return("httpd is stopped")
+        service_stop = service_stop_double
+        allow(service_stop).to receive(:call).and_return("Stopping httpd: [  OK  ]")
 
-      service_control.determine_restart!
+        service_control = ServiceControl.new(:service_name   => config.fetch('service_name'),
+                                             :service_start  => service_start,
+                                             :service_stop   => service_stop,
+                                             :service_status => service_status
+        )
 
-      expect(service_status).to have_received(:call)
-      expect(service_start).to have_received(:call)
-      expect(service_stop).to have_received(:call)
+        service_control.status
 
-      #resetting mock objects
-      RSpec::Mocks.space.proxy_for(service_start).reset
-      RSpec::Mocks.space.proxy_for(service_stop).reset
-      RSpec::Mocks.space.proxy_for(service_status).reset
+        expect(service_status).to have_received(:call)
 
-      #this will start the service due to dead service
-      allow(service_start).to receive(:call).and_return("Starting httpd: [  OK  ]")
-      allow(service_stop).to receive(:call).and_return("Stopping httpd: [  OK  ]")
-      allow(service_status).to receive(:call).and_return("httpd dead but subsys locked")
+        expect(service_start).to_not have_received(:call)
+        expect(service_stop).to_not have_received(:call)
+      end
+    end
 
-      service_control.determine_restart!
+    describe ".restart" do
+      it "only calls both service_start and service_stop object" do
+        config = {
+          'service_name' => 'apache'
+        }
 
-      expect(service_status).to have_received(:call)
-      expect(service_start).to have_received(:call)
-      expect(service_stop).to have_received(:call)
+        service_status = service_status_double
+        allow(service_status).to receive(:call).and_return("httpd is stopped")
 
-      #resetting mock objects
-      RSpec::Mocks.space.proxy_for(service_start).reset
-      RSpec::Mocks.space.proxy_for(service_stop).reset
-      RSpec::Mocks.space.proxy_for(service_status).reset
+        service_start = service_start_double
+        allow(service_start).to receive(:call).and_return("Starting httpd: [  OK  ]")
 
-      #this will wont start the service if already running
-      allow(service_start).to receive(:call).and_return("Starting httpd: [  OK  ]")
-      allow(service_stop).to receive(:call).and_return("Stopping httpd: [  OK  ]")
-      allow(service_status).to receive(:call).and_return("httpd is running")
+        service_stop = service_stop_double
+        allow(service_stop).to receive(:call).and_return("Stopping httpd: [  OK  ]")
 
-      service_control.determine_restart!
+        service_control = ServiceControl.new(:service_name   => config.fetch('service_name'),
+                                             :service_start  => service_start,
+                                             :service_stop   => service_stop,
+                                             :service_status => service_status
+        )
 
-      expect(service_status).to have_received(:call)
+        service_control.restart
 
-      expect(service_start).to_not have_received(:call)
-      expect(service_stop).to_not have_received(:call)
+        expect(service_start).to have_received(:call)
+        expect(service_stop).to have_received(:call)
+
+        expect(service_status).to_not have_received(:call)
+      end
+
+    end
+
+    describe ".determine_restart!" do
+      context "when service_status is running" do
+        it "will NOT restart the service" do
+          config = {
+            'service_name' => 'apache'
+          }
+
+          service_status = service_status_double
+          allow(service_status).to receive(:call).and_return("httpd is running")
+
+          service_start = service_start_double
+          allow(service_start).to receive(:call).and_return("Starting httpd: [  OK  ]")
+
+          service_stop = service_stop_double
+          allow(service_stop).to receive(:call).and_return("Stopping httpd: [  OK  ]")
+
+          service_control = ServiceControl.new(:service_name   => config.fetch('service_name'),
+                                               :service_start  => service_start,
+                                               :service_stop   => service_stop,
+                                               :service_status => service_status
+          )
+
+          service_control.determine_restart!
+
+          expect(service_status).to have_received(:call)
+          expect(service_start).to_not have_received(:call)
+          expect(service_stop).to_not have_received(:call)
+        end
+      end
+
+      context "when service_status is stopped" do
+        it "will restart the service" do
+          config = {
+            'service_name' => 'apache'
+          }
+
+          service_status = service_status_double
+          allow(service_status).to receive(:call).and_return("httpd is stopped")
+
+          service_start = service_start_double
+          allow(service_start).to receive(:call).and_return("Starting httpd: [  OK  ]")
+
+          service_stop = service_stop_double
+          allow(service_stop).to receive(:call).and_return("Stopping httpd: [  OK  ]")
+
+          service_control = ServiceControl.new(:service_name   => config.fetch('service_name'),
+                                               :service_start  => service_start,
+                                               :service_stop   => service_stop,
+                                               :service_status => service_status
+          )
+
+          service_control.determine_restart!
+
+          expect(service_status).to have_received(:call)
+          expect(service_start).to have_received(:call)
+          expect(service_stop).to have_received(:call)
+        end
+      end
+
+      context "when service_status is dead" do
+        it "will restart the service" do
+          config = {
+            'service_name' => 'apache'
+          }
+
+          service_status = service_status_double
+          allow(service_status).to receive(:call).and_return("httpd is dead")
+
+          service_start = service_start_double
+          allow(service_start).to receive(:call).and_return("Starting httpd: [  OK  ]")
+
+          service_stop = service_stop_double
+          allow(service_stop).to receive(:call).and_return("Stopping httpd: [  OK  ]")
+
+          service_control = ServiceControl.new(:service_name   => config.fetch('service_name'),
+                                               :service_start  => service_start,
+                                               :service_stop   => service_stop,
+                                               :service_status => service_status
+          )
+
+          service_control.determine_restart!
+
+          expect(service_status).to have_received(:call)
+          expect(service_start).to have_received(:call)
+          expect(service_stop).to have_received(:call)
+        end
+      end
     end
 
     def service_status_double
