@@ -144,7 +144,6 @@ Now the Service Monitor will run every 5 minutes and the restart services that a
   <html lang="en">
   <head>
     <meta charset="utf-8">
-  
     <title>service monitor</title>
   </head>
   
