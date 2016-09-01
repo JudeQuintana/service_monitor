@@ -26,7 +26,7 @@ module ServiceMonitor
     end
 
     def determine_restart!
-      puts Time.now.to_s + "\n\n"
+      puts "[>] " + Time.now.to_s + "\n\n"
 
       status_output = status
 
