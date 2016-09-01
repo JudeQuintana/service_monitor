@@ -9,10 +9,10 @@ Enter the service_monitor directory and install the gems
 bundle install
 ```
 
-Edit the config/services_config.yaml file with the service_name and the subsequent service commands for starting, stopping and status. The beginning of each section must start with a dash (-).
+Edit the config/services_config.yaml file with the service_name and the subsequent service commands for starting, stopping and status. The beginning of each section must start with a dash (-) followed by a new line.
 
 WARNING:
-Please be careful what commands are entered because they are executed on the server.
+Please be careful what commands are entered. They will be executed on the server and Service Monitor doesn't filter malicious commands out of the box.
 
 ```yaml
 
@@ -37,29 +37,29 @@ ruby main.rb
 
 Sample output for running services
 ```
-2016-08-29 16:15:01 +0000
+[>] 2016-08-29 16:15:01 +0000
 
 [+] Status for mysql service
 [+] mysqld (pid  23543) is running...
 
-----------
-2016-08-29 16:15:01 +0000
+------------------------------
+[>] 2016-08-29 16:15:01 +0000
 
 [+] Status for apache service
 [+] httpd (pid  1605) is running...
 
-----------
+------------------------------
 ```
 
 Sample output for stopped services
 ```
-2016-08-29 15:50:01 +0000
+[>] 2016-08-29 15:50:01 +0000
 
 [+] Status for mysql service
 [+] mysqld (pid  23543) is running...
 
-----------
-2016-08-29 15:50:01 +0000
+------------------------------
+[>] 2016-08-29 15:50:01 +0000
 
 [+] Status for apache service
 [+] httpd is stopped
@@ -68,18 +68,18 @@ Sample output for stopped services
 [+] Starting apache service
 httpd: Could not reliably determine the server's fully qualified domain name, using ::1 for ServerName
 
-----------
+------------------------------
 ```
 
 Sample output for dead services
 ```
-2016-08-29 15:45:02 +0000
+[>] 2016-08-29 15:45:02 +0000
 
 [+] Status for mysql service
 [+] mysqld (pid  23543) is running...
 
-----------
-2016-08-29 15:45:02 +0000
+------------------------------
+[>] 2016-08-29 15:45:02 +0000
 
 [+] Status for apache service
 [+] httpd dead but subsys locked
@@ -88,7 +88,7 @@ Sample output for dead services
 [+] Starting apache service
 httpd: Could not reliably determine the server's fully qualified domain name, using ::1 for ServerName
 
-----------
+------------------------------
 ```
 
 **Automating via crontab**
@@ -150,7 +150,7 @@ Now the Service Monitor will run every 5 minutes and the restart services that a
   
   <body>
   <h1>Current Service Health</h1>
-  <h4>2016-08-29 15:47:03 +0000</h4>
+  <h4>[>] 2016-08-29 15:47:03 +0000</h4>
   
     <p>[+] mysql</p>
     <p>[+] mysqld (pid  23543) is running...
