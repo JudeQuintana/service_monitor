@@ -1,7 +1,7 @@
 # What is it? 
 Service Monitor is a mini framework PoC that auto restarts processes that have died for whatever reason via the service command. It has only been tested on CentOS 6.8 running as root.
 
-**Getting Started**
+# Getting Started
 
 Enter the service_monitor directory and install the gems
 
@@ -91,7 +91,7 @@ httpd: Could not reliably determine the server's fully qualified domain name, us
 ------------------------------
 ```
 
-**Automating via crontab**
+# Automating via crontab
 
 Configure the bin/run_via_cron.sh script that will be run via crontab. Fill in the paths that include /path/to/.
 
@@ -115,7 +115,7 @@ crontab service_monitor_crontab.txt
 
 Now the Service Monitor will run every 5 minutes and the restart services that are down. There's also a mechanism to prevent service flapping. It will shut down the script in the event that the services fail to start or stop and notify to investigate the service further.
 
-**Web Server**
+# Web Server
  
  There are two ways to start the web server (Sinatra app).
  
