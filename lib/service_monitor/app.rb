@@ -11,7 +11,7 @@ module ServiceMonitor
     private
 
     def get_status_for_services
-      service_list = YamlLoader.build_service_objects
+      service_list = YamlLoader.build_services
 
       service_list.map { |service|
         {
