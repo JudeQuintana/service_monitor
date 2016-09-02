@@ -3,7 +3,7 @@ require 'spec_helper'
 module ServiceMonitor
   RSpec.describe ServiceControl do
 
-    describe ".start" do
+    describe "#start" do
       it "only calls the service_start object" do
         config = {
           'service_name' => 'apache'
@@ -33,7 +33,7 @@ module ServiceMonitor
       end
     end
 
-    describe ".stop" do
+    describe "#stop" do
       it "only calls the service_stop object" do
         config = {
           'service_name' => 'apache'
@@ -63,7 +63,7 @@ module ServiceMonitor
       end
     end
 
-    describe ".status" do
+    describe "#status" do
       it "only calls the service_status object" do
         config = {
           'service_name' => 'apache'
@@ -93,7 +93,7 @@ module ServiceMonitor
       end
     end
 
-    describe ".restart" do
+    describe "#restart" do
       it "only calls both service_start and service_stop object" do
         config = {
           'service_name' => 'apache'
@@ -124,7 +124,7 @@ module ServiceMonitor
 
     end
 
-    describe ".determine_restart!" do
+    describe "#determine_restart!" do
       context "when service_status is running" do
         it "will NOT restart the service" do
           config = {
