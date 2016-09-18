@@ -11,9 +11,9 @@ module ServiceMonitor
     private
 
     def get_status_for_services
-      service_list = YamlLoader.build_services
+      services = YamlLoader.build_services
 
-      service_list.map { |service|
+      services.map { |service|
         {
           :service_name   => service.service_name,
           :service_status => service.status
