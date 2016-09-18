@@ -9,7 +9,7 @@ Enter the service_monitor directory and install the gems
 bundle install
 ```
 
-Edit the config/services_config.yaml file with the service_name and the subsequent service commands for starting, stopping and status. The beginning of each section must start with a dash (-) followed by a new line.
+Edit the config/services_config.yaml file with the service_name and the subsequent commands for start, stop and status for the service. The beginning of each section must start with a dash (-) followed by a new line.
 
 WARNING:
 Please be careful what commands are entered. They will be executed on the server and Service Monitor doesn't filter malicious commands out of the box.
