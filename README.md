@@ -3,7 +3,7 @@ Service Monitor is a mini framework PoC that auto restarts processes that have d
 
 # Getting Started
 
-Enter the service_monitor directory and install the gems
+Enter the service_monitor directory and install the gems.
 
 ```
 bundle install
